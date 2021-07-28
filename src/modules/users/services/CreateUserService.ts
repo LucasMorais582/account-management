@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 import AppError from '@shared/errors/AppError'
 import IUsersRepository from '../repositories/IUsersRepository'
-import User from '../infra/typeorm/entities/Users'
+import User from '../infra/typeorm/entities/User'
 
 interface IRequest {
   name: string
@@ -18,7 +18,7 @@ class CreateUserService {
 
   public async execute({ name, document, birthdate }: IRequest): Promise<User> {
     const checkUserExists = await this.userRepository.findByDocument(document)
-    if (checkUserExists) throw new AppError('Email address is already used.')
+    if (checkUserExists) throw new AppError('This document is already used.')
 
     const user = await this.userRepository.create({
       name,

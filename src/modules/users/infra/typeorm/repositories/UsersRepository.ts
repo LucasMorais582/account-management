@@ -1,45 +1,42 @@
 import { getRepository, Repository } from 'typeorm'
-import User from '@modules/users/infra/typeorm/entities/Users'
+import User from '@modules/users/infra/typeorm/entities/User'
 import IUserRepository from '@modules/users/repositories/IUsersRepository'
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
 
 class UsersRepository implements IUserRepository {
-  private ormRepository: Repository<User>
+  private usersRepository: Repository<User>
 
   constructor() {
-    this.ormRepository = getRepository(User)
+    this.usersRepository = getRepository(User)
   }
 
   public async findAll(): Promise<[User[], number] | undefined> {
-    return this.ormRepository.findAndCount()
+    return this.usersRepository.findAndCount()
   }
 
   public async findById(id: string): Promise<User | undefined> {
-    return this.ormRepository.findOne(id)
+    return this.usersRepository.findOne({id})
   }
 
   public async findByDocument(document: string): Promise<User | undefined> {
-    return this.ormRepository.findOne({document})
+    return this.usersRepository.findOne({document})
   }
 
-  public async create(userData: ICreateUserDTO): Promise<User> {
-    const user = this.ormRepository.create(userData)
-    await this.ormRepository.save(user)
+  public async create(data: ICreateUserDTO): Promise<User> {
+    const user = this.usersRepository.create(data)
+    await this.usersRepository.save(user)
 
     return user
   }
 
   public async update(user: User, data: object): Promise<User> {
-    return this.ormRepository.save({...user, ...data})
+    return this.usersRepository.save({...user, ...data})
   }
 
   public async delete(id: string): Promise<any> {
-    return this.ormRepository.softDelete(id)
+    return this.usersRepository.softDelete(id)
   }
 
-  public async save(user: User): Promise<User> {
-    return this.ormRepository.save(user)
-  }
 }
 
 export default UsersRepository

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
-import User from '../infra/typeorm/entities/Users';
+import User from '../infra/typeorm/entities/User';
 
 @injectable()
 class UpdateUserService {
@@ -10,11 +10,18 @@ class UpdateUserService {
     private userRepository: IUsersRepository
   ) {}
 
-  public async execute(id: string, body: object): Promise<User> {
-    const checkUserExists = await this.userRepository.findById(id)
-    if (!checkUserExists) throw new AppError('User not found.')
+  public async execute(id: string, body: any): Promise<User> {
+    const user = await this.userRepository.findById(id)
+    if (!user) throw new AppError('User not found.')
 
-    return this.userRepository.update(checkUserExists, body)
+    // Impedindo que determinados dados sejam atualizados
+    body.id ? body.id = user.id : ''
+    body.document ? body.document = user.document : ''
+    body.created_at ? body.created_at = user.created_at : ''
+    body.updated_at ? body.updated_at = user.updated_at : ''
+    body.deleted_at ? body.deleted_at = user.deleted_at : ''
+
+    return this.userRepository.update(user, body)
   }
 }
 
