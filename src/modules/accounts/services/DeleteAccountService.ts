@@ -3,18 +3,18 @@ import AppError from '@shared/errors/AppError'
 import IAccountsRepository from '../repositories/IAccountsRepository'
 
 @injectable()
-class CreateAccountService {
+class DeleteAccountService {
   constructor(
     @inject('AccountsRepository')
     private accountRepository: IAccountsRepository
   ) {}
 
   public async execute(id: string): Promise<any> {
-    const checkUserExists = await this.accountRepository.findById(id)
-    if (!checkUserExists) throw new AppError('User not found.')
+    const checkAccountExists = await this.accountRepository.findById(id)
+    if (!checkAccountExists) throw new AppError('Account not found.')
 
     return this.accountRepository.delete(id)
   }
 }
 
-export default CreateAccountService
+export default DeleteAccountService

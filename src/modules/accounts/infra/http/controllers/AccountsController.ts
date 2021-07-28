@@ -4,8 +4,8 @@ import { container } from 'tsyringe'
 import CreateAccountService from '@modules/accounts/services/CreateAccountService'
 import UpdateAccountService from '@modules/accounts/services/UpdateAccountService'
 import UpdateAccountFlagActiveService from '@modules/accounts/services/UpdateAccountFlagActiveService'
-import WithdrawAccountService from '@modules/accounts/services/WithdrawAccountService'
-import DepositAccountService from '@modules/accounts/services/DepositAccountService'
+// import WithdrawAccountService from '@modules/accounts/services/WithdrawAccountService'
+// import DepositAccountService from '@modules/accounts/services/DepositAccountService'
 import DeleteAccountService from '@modules/accounts/services/DeleteAccountService'
 
 export default class AccountsController {
@@ -33,20 +33,6 @@ export default class AccountsController {
   public async updateFlagActive(request: Request, response: Response): Promise<Response> {
     const updateAccount = container.resolve(UpdateAccountFlagActiveService)
     const account = await updateAccount.execute(request.params.account_id)
-
-    return response.json(account)
-  }
-
-  public async depositAccount(request: Request, response: Response): Promise<Response> {
-    const updateAccount = container.resolve(DepositAccountService)
-    const account = await updateAccount.execute(request.params.account_id, request.body)
-
-    return response.json(account)
-  }
-
-  public async withdrawAccount(request: Request, response: Response): Promise<Response> {
-    const updateAccount = container.resolve(WithdrawAccountService)
-    const account = await updateAccount.execute(request.params.account_id, request.body)
 
     return response.json(account)
   }
