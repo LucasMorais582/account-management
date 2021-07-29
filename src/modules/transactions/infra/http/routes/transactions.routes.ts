@@ -6,7 +6,7 @@ const transactionsController = new TransactionsController()
 
 transactionsRouter.get('/accounts/:account_id', transactionsController.findByAccountId)
 
-transactionsRouter.get('/accounts/:account_id/period', transactionsController.findByPeriod)
+transactionsRouter.get('/accounts/:account_id/period', transactionsController.findByAccountId)
 
 transactionsRouter.post('/accounts/:account_id/withdraw-account', transactionsController.create)
 
