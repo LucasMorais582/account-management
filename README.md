@@ -31,11 +31,11 @@ yarn init
 - Em seguida, instalar a imagem do [Postgres](https://hub.docker.com/_/postgres). Caso nunca tenha utilizado o Postgres na sua máquina, é necessário criar seu login para ter acesso.
 - Criar um banco de dados com o nome: "account-management" ou com o nome que desejar, desde que altere também no ormconfig.json (Nesse passo, pode-se utilizar o pgAdmin ou algum programa como o [Dbeaver](https://dbeaver.io/) para realizar a conexão com a imagem).
 
-## Execução de testes:
+## Execução das transactions:
 
-Basta rodar o comando:
+Após a conexão com o banco de dados, basta rodar o comando:
 ```
-yarn jest
+yarn typeorm migration:run
 ```
 
 ## Passos para inicializar a aplicação:
